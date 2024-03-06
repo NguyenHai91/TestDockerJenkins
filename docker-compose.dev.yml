@@ -1,0 +1,33 @@
+versoin "2.8"
+#create containers from services:
+services:
+  mysql-container:
+    image: mysql:8.0.28
+    container_name: mysqldb
+    ports:
+      - 3306:3306
+    volumes:
+      - ./:/app
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - mysql-conf-deamond:/etc/mysql/conf.d
+    networks:
+      - backend
+    environment:
+      MYSQL_ROOT_PASSWORD: 789789
+      MYSQL_DATABASE: demo-docker
+  springboot-container:
+    image: demo-docker:v1.0.0
+    container_name: demo-docker
+    ports:
+      - 3000:3000
+    networks:
+      - backend
+#create network:
+networks:
+  backend:
+    name: springboot-mysql-network
+#create volumes:
+volumes:
+  mysql-data:
+  mysql-conf-deamond:
